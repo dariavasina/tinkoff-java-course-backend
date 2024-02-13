@@ -66,6 +66,11 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>me.paulschwarz</groupId>
+            <artifactId>spring-dotenv</artifactId>
+            <version>{version}</version>
+        </dependency>
 
         <!-- Tests -->
         <dependency>
