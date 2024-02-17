@@ -9,6 +9,9 @@ public class HelpCommand implements Command {
         return "/help";
     }
 
+    public HelpCommand() {
+    }
+
     @Override
     public String description() {
         return "Вывести окно с командами";

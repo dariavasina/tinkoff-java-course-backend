@@ -21,7 +21,6 @@ public class BotApplication {
     public ApplicationRunner initializeBot(LinkTrackerBot bot) {
         return args -> {
             bot.start();
-            System.out.println("Bot started");
         };
     }
 }

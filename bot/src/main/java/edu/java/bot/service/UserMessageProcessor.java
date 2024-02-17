@@ -3,6 +3,9 @@ package edu.java.bot.service;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.commands.Command;
+import edu.java.bot.commands.TrackCommand;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 public class UserMessageProcessor {
@@ -20,14 +23,11 @@ public class UserMessageProcessor {
         String messageText = update.message().text();
         Long chatId = update.message().chat().id();
 
-        // Поиск подходящей команды
         for (Command command : commands) {
             if (messageText.startsWith(command.command())) {
                 return command.handle(update);
             }
         }
-
-        // Если команда не найдена, возвращаем сообщение об ошибке
         return new SendMessage(chatId, "Неизвестная команда. Попробуйте /help для получения списка команд.");
     }
 }

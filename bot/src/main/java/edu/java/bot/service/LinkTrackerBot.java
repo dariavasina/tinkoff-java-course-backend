@@ -8,6 +8,12 @@ import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.SendResponse;
 import com.pengrad.telegrambot.utility.BotUtils;
+import edu.java.bot.commands.Command;
+import edu.java.bot.commands.HelpCommand;
+import edu.java.bot.commands.ListCommand;
+import edu.java.bot.commands.StartCommand;
+import edu.java.bot.commands.TrackCommand;
+import edu.java.bot.commands.UntrackCommand;
 import edu.java.bot.configuration.ApplicationConfig;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
@@ -18,17 +24,24 @@ public class LinkTrackerBot implements Bot {
 
     private final TelegramBot telegramBot;
     private final ApplicationConfig applicationConfig;
-    private ArrayList<String> trackedLinks;
+    private ArrayList<Command> commands = new ArrayList<>();
+
+    private final LinkTracker linkTracker = new LinkTracker();
+
+    private final UserMessageProcessor userMessageProcessor;
 
     public LinkTrackerBot(ApplicationConfig applicationConfig) {
         this.applicationConfig = applicationConfig;
-        System.out.println(applicationConfig.telegramToken());
         telegramBot = new TelegramBot(applicationConfig.telegramToken());
-        //telegramBot = new TelegramBot("6756123765:AAE6M3dKBwVg6_4te9pFVmbP7mjDTxqSlkI");
 
-        //todo FIX TOKEN
-        this.trackedLinks = new ArrayList<>();
-        System.out.println("bot created");
+        commands.add(new StartCommand());
+        commands.add(new HelpCommand());
+        commands.add(new TrackCommand(linkTracker));
+        commands.add(new UntrackCommand(linkTracker));
+        commands.add(new ListCommand(linkTracker));
+
+        userMessageProcessor = new UserMessageProcessor(commands);
+
     }
 
     @Override
@@ -40,10 +53,15 @@ public class LinkTrackerBot implements Bot {
     public int process(List<Update> updates) {
         int processedUpdates = 0;
         for (Update update : updates) {
-            SendMessage response = processUpdate(update);
+            String messageText = update.message().text();
+            Long chatId = update.message().chat().id();
+
+            SendMessage response = userMessageProcessor.process(update);
             if (response != null) {
-                BaseResponse baseResponse = execute(response);
-                if (baseResponse.isOk()) {
+                SendResponse sendResponse = telegramBot.execute(response);
+                if (!sendResponse.isOk()) {
+                    System.out.println("Message failed to send. Error: " + sendResponse.errorCode() + " - " + sendResponse.description());
+                } else {
                     processedUpdates++;
                 }
             }
@@ -52,48 +70,10 @@ public class LinkTrackerBot implements Bot {
     }
 
 
-    private SendMessage processUpdate(Update update) {
-        String messageText = update.message().text();
-        Long chatId = update.message().chat().id();
-
-        switch (messageText) {
-            case "/start":
-                // логика регистрации пользователя
-                return new SendMessage(chatId, "Вы зарегистрированы!");
-            case "/help":
-                // логика вывода окна с командами
-                return new SendMessage(
-                    chatId,
-                    "Список команд:\n/start - зарегистрировать пользователя\n/help - вывести окно с командами\n/track - начать отслеживание ссылки\n/untrack - прекратить отслеживание ссылки\n/list - показать список отслеживаемых ссылок"
-                );
-            case "/track":
-                // логика начала отслеживания ссылки
-                return new SendMessage(chatId, "Отслеживание ссылки начато!");
-            case "/untrack":
-                // логика прекращения отслеживания ссылки
-                return new SendMessage(chatId, "Отслеживание ссылки прекращено!");
-            case "/list":
-                // логика вывода списка отслеживаемых ссылок
-                if (trackedLinks.isEmpty()) {
-                    return new SendMessage(chatId, "Список отслеживаемых ссылок пуст.");
-                } else {
-                    StringBuilder messageBuilder = new StringBuilder("Список отслеживаемых ссылок:\n");
-                    for (String link : trackedLinks) {
-                        messageBuilder.append(link).append("\n");
-                    }
-                    return new SendMessage(chatId, messageBuilder.toString());
-                }
-            default:
-                return new SendMessage(chatId, "Неизвестная команда. Попробуйте /help для получения списка команд.");
-        }
-    }
-
     @Override
     public void start() {
         telegramBot.setUpdatesListener(updates -> {
-            System.out.println("LISTENING...");
-            System.out.println(updates);
-            updates.forEach(this::processUpdate);
+            process(updates);
             return UpdatesListener.CONFIRMED_UPDATES_ALL;
         });
     }

@@ -4,6 +4,9 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 
 public class StartCommand implements Command {
+    public StartCommand() {
+    }
+
     @Override
     public String command() {
         return "/start";
