@@ -3,9 +3,6 @@ package edu.java.bot.service;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.commands.Command;
-import edu.java.bot.commands.TrackCommand;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 public class UserMessageProcessor {

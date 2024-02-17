@@ -1,7 +1,5 @@
 package edu.java.bot.service;
 
-import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.request.SendMessage;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;

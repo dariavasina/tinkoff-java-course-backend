@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 
 public class UntrackCommand implements Command {
     private final LinkTracker linkTracker;
+
     public UntrackCommand(LinkTracker linkTracker) {
         this.linkTracker = linkTracker;
     }

@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 
 public class TrackCommand implements Command {
     private final LinkTracker linkTracker;
+
     public TrackCommand(LinkTracker linkTracker) {
         this.linkTracker = linkTracker;
     }
