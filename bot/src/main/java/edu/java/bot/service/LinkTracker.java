@@ -21,8 +21,12 @@ public class LinkTracker {
         return trackedLinks.getOrDefault(chatId, new ArrayList<>());
     }
 
-    public void untrackLink(Long chatId, URI link) {
-        trackedLinks.getOrDefault(chatId, new ArrayList<>()).remove(link);
+    public boolean untrackLink(Long chatId, URI link) {
+        List<URI> links = trackedLinks.get(chatId);
+        if (links != null && links.remove(link)) {
+            return true;
+        }
+        return false; // link not found
     }
 }
 

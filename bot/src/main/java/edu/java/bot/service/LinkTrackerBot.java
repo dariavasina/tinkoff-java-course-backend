@@ -2,9 +2,11 @@ package edu.java.bot.service;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
+import com.pengrad.telegrambot.model.BotCommand;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.BaseRequest;
 import com.pengrad.telegrambot.request.SendMessage;
+import com.pengrad.telegrambot.request.SetMyCommands;
 import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.SendResponse;
 import edu.java.bot.commands.Command;
@@ -18,13 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import org.springframework.stereotype.Component;
-
-
-
-
-
-
-
 
 @Component
 public class LinkTrackerBot implements Bot {
@@ -50,6 +45,21 @@ public class LinkTrackerBot implements Bot {
 
         userMessageProcessor = new UserMessageProcessor(commands);
 
+
+        setMyCommands();
+
+    }
+
+    private void setMyCommands() {
+        List<BotCommand> botApiCommands = new ArrayList<>();
+        for (Command command : commands) {
+            botApiCommands.add(command.toApiCommand());
+        }
+        BotCommand[] botCommandsArray = botApiCommands.toArray(new BotCommand[0]);
+
+        SetMyCommands setMyCommands = new SetMyCommands(botCommandsArray);
+
+        execute(setMyCommands);
     }
 
     @Override
@@ -61,16 +71,18 @@ public class LinkTrackerBot implements Bot {
     public int process(List<Update> updates) {
         int processedUpdates = 0;
         for (Update update : updates) {
-            String messageText = update.message().text();
-            Long chatId = update.message().chat().id();
+            if (update.message() != null) {
+                String messageText = update.message().text();
+                Long chatId = update.message().chat().id();
 
-            SendMessage response = userMessageProcessor.process(update);
-            if (response != null) {
-                SendResponse sendResponse = telegramBot.execute(response);
-                if (!sendResponse.isOk()) {
-                    LOGGER.severe("Message failed to send. Error: " + sendResponse.errorCode());
-                } else {
-                    processedUpdates++;
+                SendMessage response = userMessageProcessor.process(update);
+                if (response != null) {
+                    SendResponse sendResponse = telegramBot.execute(response);
+                    if (!sendResponse.isOk()) {
+                        LOGGER.severe("Message failed to send. Error: " + sendResponse.errorCode());
+                    } else {
+                        processedUpdates++;
+                    }
                 }
             }
         }
@@ -90,5 +102,6 @@ public class LinkTrackerBot implements Bot {
     public void close() {
         telegramBot.removeGetUpdatesListener();
     }
+
 
 }

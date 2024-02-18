@@ -3,6 +3,7 @@ package edu.java.bot.commands;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.service.LinkTracker;
+import edu.java.bot.utils.URLValidator;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -31,19 +32,25 @@ public class UntrackCommand implements Command {
         String[] parts = messageText.split("\\s+", 2);
         if (parts.length == 2) {
             String url = parts[1];
-            try {
-                URI uri = new URI(url);
+            if (URLValidator.isValidUrl(url)) {
+                try {
+                    URI uri = URLValidator.extractUri(url);
 
-                linkTracker.untrackLink(chatId, uri);
+                    linkTracker.untrackLink(chatId, uri);
 
-                return new SendMessage(chatId, "Отслеживание ссылки прекращено!");
-            } catch (URISyntaxException e) {
-                return new SendMessage(chatId, "Неверный URL. Попробуйте снова");
+                    return new SendMessage(chatId, "Отслеживание ссылки прекращено!");
+                } catch (URISyntaxException e) {
+                    return new SendMessage(chatId, "Неверный URL. Попробуйте снова");
+                }
+            } else {
+                return new SendMessage(chatId, "Неверный формат URL. Попробуйте снова");
             }
+
         } else {
             return new SendMessage(chatId, "Не указан URL для прекращения отслеживания");
         }
 
 
     }
+
 }
