@@ -10,11 +10,9 @@ import com.pengrad.telegrambot.request.SetMyCommands;
 import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.SendResponse;
 import edu.java.bot.commands.Command;
-import edu.java.bot.configuration.ApplicationConfig;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import edu.java.bot.configuration.TelegramBotConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
