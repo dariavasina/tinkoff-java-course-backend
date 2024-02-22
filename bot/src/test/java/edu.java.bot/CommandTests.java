@@ -5,7 +5,7 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.commands.*;
-import edu.java.bot.service.LinkTracker;
+import edu.java.bot.service.TrackedLinkRepository;
 import edu.java.bot.service.UserMessageProcessor;
 import org.junit.Test;
 import java.lang.reflect.Field;
@@ -76,8 +76,8 @@ public class CommandTests {
 
     @Test
     public void testTrackCommand() throws NoSuchFieldException, IllegalAccessException {
-        LinkTracker linkTracker = mock(LinkTracker.class);
-        TrackCommand trackCommand = new TrackCommand(linkTracker);
+        TrackedLinkRepository trackedLinkRepository = mock(TrackedLinkRepository.class);
+        TrackCommand trackCommand = new TrackCommand(trackedLinkRepository);
 
         Update update = mock(Update.class);
         Message message = mock(Message.class);
@@ -97,8 +97,8 @@ public class CommandTests {
 
     @Test
     public void testUntrackCommand() throws NoSuchFieldException, IllegalAccessException {
-        LinkTracker linkTracker = mock(LinkTracker.class);
-        UntrackCommand untrackCommand = new UntrackCommand(linkTracker);
+        TrackedLinkRepository trackedLinkRepository = mock(TrackedLinkRepository.class);
+        UntrackCommand untrackCommand = new UntrackCommand(trackedLinkRepository);
 
         Update update = mock(Update.class);
         Message message = mock(Message.class);
@@ -117,8 +117,8 @@ public class CommandTests {
 
     @Test
     public void testIncorrectLinkTrackCommand() throws NoSuchFieldException, IllegalAccessException {
-        LinkTracker linkTracker = mock(LinkTracker.class);
-        TrackCommand trackCommand = new TrackCommand(linkTracker);
+        TrackedLinkRepository trackedLinkRepository = mock(TrackedLinkRepository.class);
+        TrackCommand trackCommand = new TrackCommand(trackedLinkRepository);
 
         Update update = mock(Update.class);
         Message message = mock(Message.class);
@@ -138,8 +138,8 @@ public class CommandTests {
 
     @Test
     public void testIncorrectLinkUntrackCommand() throws NoSuchFieldException, IllegalAccessException {
-        LinkTracker linkTracker = mock(LinkTracker.class);
-        UntrackCommand untrackCommand = new UntrackCommand(linkTracker);
+        TrackedLinkRepository trackedLinkRepository = mock(TrackedLinkRepository.class);
+        UntrackCommand untrackCommand = new UntrackCommand(trackedLinkRepository);
 
         Update update = mock(Update.class);
         Message message = mock(Message.class);
@@ -180,12 +180,12 @@ public class CommandTests {
 
     @Test
     public void testListCommandNotEmpty() throws URISyntaxException, NoSuchFieldException, IllegalAccessException {
-        LinkTracker linkTracker = mock(LinkTracker.class);
+        TrackedLinkRepository trackedLinkRepository = mock(TrackedLinkRepository.class);
         URI uri1 = new URI("https://example.com");
         URI uri2 = new URI("https://github.com");
-        when(linkTracker.getTrackedLinks(anyLong())).thenReturn((List<URI>) List.of(uri1, uri2));
+        when(trackedLinkRepository.getTrackedLinks(anyLong())).thenReturn((List<URI>) List.of(uri1, uri2));
 
-        ListCommand listCommand = new ListCommand(linkTracker);
+        ListCommand listCommand = new ListCommand(trackedLinkRepository);
         UserMessageProcessor userMessageProcessor = new UserMessageProcessor(List.of(listCommand));
 
         Field field = UserMessageProcessor.class.getDeclaredField("userRegistrationStatus");
@@ -209,11 +209,11 @@ public class CommandTests {
 
     @Test
     public void testListCommandEmpty() throws NoSuchFieldException, IllegalAccessException {
-        LinkTracker linkTracker = mock(LinkTracker.class);
-        when(linkTracker.getTrackedLinks(anyLong())).thenReturn(List.of());
+        TrackedLinkRepository trackedLinkRepository = mock(TrackedLinkRepository.class);
+        when(trackedLinkRepository.getTrackedLinks(anyLong())).thenReturn(List.of());
 
 
-        ListCommand listCommand = new ListCommand(linkTracker);
+        ListCommand listCommand = new ListCommand(trackedLinkRepository);
         UserMessageProcessor userMessageProcessor = new UserMessageProcessor(List.of(listCommand));
 
         Field field = UserMessageProcessor.class.getDeclaredField("userRegistrationStatus");

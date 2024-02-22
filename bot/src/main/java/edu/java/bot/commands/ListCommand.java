@@ -2,15 +2,17 @@ package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import edu.java.bot.service.LinkTracker;
+import edu.java.bot.service.TrackedLinkRepository;
+import org.springframework.stereotype.Component;
 import java.net.URI;
 import java.util.List;
 
+@Component
 public class ListCommand implements Command {
-    private final LinkTracker linkTracker;
+    private final TrackedLinkRepository trackedLinkRepository;
 
-    public ListCommand(LinkTracker linkTracker) {
-        this.linkTracker = linkTracker;
+    public ListCommand(TrackedLinkRepository trackedLinkRepository) {
+        this.trackedLinkRepository = trackedLinkRepository;
     }
 
     @Override
@@ -26,7 +28,7 @@ public class ListCommand implements Command {
     @Override
     public SendMessage handle(Update update) {
         Long chatId = update.message().chat().id();
-        List<URI> trackedLinks = linkTracker.getTrackedLinks(chatId);
+        List<URI> trackedLinks = trackedLinkRepository.getTrackedLinks(chatId);
 
         if (trackedLinks.isEmpty()) {
             return new SendMessage(chatId, "Список отслеживаемых ссылок пуст.");

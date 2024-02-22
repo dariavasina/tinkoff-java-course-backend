@@ -1,12 +1,14 @@
 package edu.java.bot.service;
 
+import org.springframework.stereotype.Repository;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LinkTracker {
+@Repository
+public class TrackedLinkRepository {
     private Map<Long, List<URI>> trackedLinks = new HashMap<>();
 
     public void trackLink(Long chatId, URI link) {

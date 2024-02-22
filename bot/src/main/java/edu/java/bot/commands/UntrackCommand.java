@@ -2,16 +2,18 @@ package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import edu.java.bot.service.LinkTracker;
+import edu.java.bot.service.TrackedLinkRepository;
 import edu.java.bot.utils.URLValidator;
+import org.springframework.stereotype.Component;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+@Component
 public class UntrackCommand implements Command {
-    private final LinkTracker linkTracker;
+    private final TrackedLinkRepository trackedLinkRepository;
 
-    public UntrackCommand(LinkTracker linkTracker) {
-        this.linkTracker = linkTracker;
+    public UntrackCommand(TrackedLinkRepository trackedLinkRepository) {
+        this.trackedLinkRepository = trackedLinkRepository;
     }
 
     @Override
@@ -30,26 +32,22 @@ public class UntrackCommand implements Command {
         Long chatId = update.message().chat().id();
 
         String[] parts = messageText.split("\\s+", 2);
-        if (parts.length == 2) {
-            String url = parts[1];
-            if (URLValidator.isValidUrl(url)) {
-                try {
-                    URI uri = URLValidator.extractUri(url);
-
-                    linkTracker.untrackLink(chatId, uri);
-
-                    return new SendMessage(chatId, "Отслеживание ссылки прекращено!");
-                } catch (URISyntaxException e) {
-                    return new SendMessage(chatId, "Неверный URL. Попробуйте снова");
-                }
-            } else {
-                return new SendMessage(chatId, "Неверный формат URL. Попробуйте снова");
-            }
-
-        } else {
+        if (parts.length != 2) {
             return new SendMessage(chatId, "Не указан URL для прекращения отслеживания");
         }
+        String url = parts[1];
+        if (!URLValidator.isValidUrl(url)) {
+            return new SendMessage(chatId, "Неверный формат URL. Попробуйте снова");
+        }
+        try {
+            URI uri = URLValidator.extractUri(url);
 
+            trackedLinkRepository.untrackLink(chatId, uri);
+
+            return new SendMessage(chatId, "Отслеживание ссылки прекращено!");
+        } catch (URISyntaxException e) {
+            return new SendMessage(chatId, "Неверный URL. Попробуйте снова");
+        }
 
     }
 

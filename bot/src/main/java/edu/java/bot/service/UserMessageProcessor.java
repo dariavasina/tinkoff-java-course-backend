@@ -3,10 +3,12 @@ package edu.java.bot.service;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.commands.Command;
+import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class UserMessageProcessor {
     private final List<Command> commands;
     private Map<Long, Boolean> userRegistrationStatus = new HashMap<>();
