@@ -164,6 +164,12 @@
             <artifactId>jetty-client</artifactId>
             <version>11.0.8</version>
         </dependency>
+        <dependency>
+            <groupId>edu.java</groupId>
+            <artifactId>root</artifactId>
+            <version>0.1</version>
+            <scope>compile</scope>
+        </dependency>
 
 
     </dependencies>
