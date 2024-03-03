@@ -13,6 +13,9 @@ import edu.java.bot.commands.Command;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+
+import edu.java.bot.processor.UserMessageProcessor;
+import edu.java.bot.respository.TrackedLinkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

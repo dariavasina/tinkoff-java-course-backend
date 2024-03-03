@@ -1,6 +1,6 @@
 package edu.java.client;
 
-import edu.java.response.GitHubRepositoryResponse;
+import edu.java.dto.response.GitHubRepositoryResponse;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 

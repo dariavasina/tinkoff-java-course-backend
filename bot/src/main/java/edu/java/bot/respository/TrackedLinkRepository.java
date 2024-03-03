@@ -1,4 +1,4 @@
-package edu.java.bot.service;
+package edu.java.bot.respository;
 
 import java.net.URI;
 import java.util.ArrayList;

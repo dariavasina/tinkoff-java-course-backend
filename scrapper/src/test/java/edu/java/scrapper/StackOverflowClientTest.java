@@ -2,7 +2,7 @@ package edu.java.scrapper;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import edu.java.client.StackOverflowClient;
-import edu.java.response.StackOverflowQuestionResponse;
+import edu.java.dto.response.StackOverflowQuestionResponse;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
