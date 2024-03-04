@@ -17,11 +17,11 @@ public class ClientConfig {
 
     @Bean
     public GitHubClient githubWebClient() {
-        return new GitHubClient(WebClient.builder(), githubBaseUrl);
+        return new GitHubClient(githubBaseUrl);
     }
 
     @Bean
     public StackOverflowClient stackoverflowWebClient() {
-        return new StackOverflowClient(WebClient.builder(), stackoverflowBaseUrl);
+        return new StackOverflowClient(stackoverflowBaseUrl);
     }
 }

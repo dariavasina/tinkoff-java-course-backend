@@ -23,7 +23,7 @@ public class GitHubClientTest {
     private GitHubClient gitHubClient;
     @BeforeEach
     public void setup() {
-        gitHubClient = new GitHubClient(WebClient.builder(), wireMockExtension.baseUrl());
+        gitHubClient = new GitHubClient(wireMockExtension.baseUrl());
     }
 
     private void configStubGitHub() {

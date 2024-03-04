@@ -26,7 +26,7 @@ public class LinkUpdateController {
     @PostMapping
     public ResponseEntity<Void> handleLinkUpdate(@Validated @RequestBody LinkUpdate linkUpdateRequest) {
         linkUpdateService.processLinkUpdate(linkUpdateRequest);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 }
 

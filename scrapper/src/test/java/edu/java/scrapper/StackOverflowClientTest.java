@@ -24,7 +24,7 @@ public class StackOverflowClientTest {
     private StackOverflowClient stackOverflowClient;
     @BeforeEach
     public void setup() {
-        stackOverflowClient = new StackOverflowClient(WebClient.builder(), wireMockExtension.baseUrl());
+        stackOverflowClient = new StackOverflowClient(wireMockExtension.baseUrl());
     }
 
     @Test

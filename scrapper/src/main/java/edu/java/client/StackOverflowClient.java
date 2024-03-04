@@ -8,8 +8,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class StackOverflowClient {
     private final WebClient webClient;
 
-    public StackOverflowClient(WebClient.Builder webClientBuilder, String baseUrl) {
-        this.webClient = webClientBuilder.baseUrl(baseUrl).build();
+    public StackOverflowClient(String baseUrl) {
+        this.webClient = WebClient.builder().baseUrl(baseUrl).build();
     }
 
     public StackOverflowQuestionResponse getQuestionById(String id) {

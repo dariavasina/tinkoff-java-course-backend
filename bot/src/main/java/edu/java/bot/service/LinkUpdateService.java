@@ -8,6 +8,5 @@ import org.springframework.stereotype.Service;
 public class LinkUpdateService {
 
     public void processLinkUpdate(LinkUpdate linkUpdateRequest) {
-        // Обработка обновления, например, отправка уведомлений пользователям Telegram
     }
 }
