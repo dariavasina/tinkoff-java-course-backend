@@ -1,4 +1,4 @@
-package edu.java.bot.controller;;
+package edu.java.bot.controller;
 
 import edu.java.model.response.ApiErrorResponse;
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class BadRequestController {
+public class BadRequestControllerAdvice {
     private ApiErrorResponse buildResponse(Exception e, String description) {
         return ApiErrorResponse.builder()
             .description(description)

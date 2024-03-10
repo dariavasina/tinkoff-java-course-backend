@@ -19,7 +19,7 @@ public class ExceptionController {
     }
 
     @ExceptionHandler(value = {NotExistException.class})
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "does not exist")
+    @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "does not exist")
     public ErrorMessage chatDoesNotExistException(NotExistException ex, WebRequest request) {
         return new ErrorMessage(ex.getMessage());
     }

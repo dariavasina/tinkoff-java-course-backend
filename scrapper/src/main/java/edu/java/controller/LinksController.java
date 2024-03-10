@@ -7,6 +7,11 @@ import edu.java.model.response.ListLinksResponse;
 import edu.java.service.LinksService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -14,17 +19,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class LinksController {
     private final LinksService linkService;
 
-    public ResponseEntity<ListLinksResponse> getLinks(Long tgChatId) {
+    @GetMapping
+    public ResponseEntity<ListLinksResponse> getLinks(@RequestHeader Long tgChatId) {
         return linkService.getLinks(tgChatId);
     }
 
-    public ResponseEntity<LinkResponse> addLink(Long tgChatId, AddLinkRequest addLinkRequest) {
+    @PostMapping
+    public ResponseEntity<LinkResponse> addLink(@RequestHeader Long tgChatId, @RequestBody AddLinkRequest addLinkRequest) {
         return linkService.addLink(tgChatId, addLinkRequest);
     }
 
+    @DeleteMapping
     public ResponseEntity<LinkResponse> deleteLink(
-        Long tgChatId,
-        RemoveLinkRequest removeLinkRequest
+        @RequestHeader Long tgChatId,
+        @RequestBody RemoveLinkRequest removeLinkRequest
     ) {
         return linkService.deleteLink(tgChatId, removeLinkRequest);
     }
