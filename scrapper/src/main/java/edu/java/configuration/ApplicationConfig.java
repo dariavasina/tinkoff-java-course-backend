@@ -13,11 +13,8 @@ public record ApplicationConfig(
     @NotNull
     Scheduler scheduler
 ) {
-//    @Bean
-//    private long schedulerDelay() {
-//        return scheduler.interval.toMillis();
-//    }
 
     public record Scheduler(boolean enable, @NotNull Duration interval, @NotNull Duration forceCheckDelay) {
     }
+
 }

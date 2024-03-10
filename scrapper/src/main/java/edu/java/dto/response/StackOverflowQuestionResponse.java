@@ -1,4 +1,4 @@
-package edu.java.response;
+package edu.java.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;

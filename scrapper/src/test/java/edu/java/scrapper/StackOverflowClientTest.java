@@ -2,7 +2,7 @@ package edu.java.scrapper;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import edu.java.client.StackOverflowClient;
-import edu.java.response.StackOverflowQuestionResponse;
+import edu.java.dto.response.StackOverflowQuestionResponse;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -24,7 +24,7 @@ public class StackOverflowClientTest {
     private StackOverflowClient stackOverflowClient;
     @BeforeEach
     public void setup() {
-        stackOverflowClient = new StackOverflowClient(WebClient.builder(), wireMockExtension.baseUrl());
+        stackOverflowClient = new StackOverflowClient(wireMockExtension.baseUrl());
     }
 
     @Test

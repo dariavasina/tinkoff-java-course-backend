@@ -5,7 +5,6 @@ import edu.java.client.StackOverflowClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 public class ClientConfig {
@@ -17,11 +16,11 @@ public class ClientConfig {
 
     @Bean
     public GitHubClient githubWebClient() {
-        return new GitHubClient(WebClient.builder(), githubBaseUrl);
+        return new GitHubClient(githubBaseUrl);
     }
 
     @Bean
     public StackOverflowClient stackoverflowWebClient() {
-        return new StackOverflowClient(WebClient.builder(), stackoverflowBaseUrl);
+        return new StackOverflowClient(stackoverflowBaseUrl);
     }
 }
