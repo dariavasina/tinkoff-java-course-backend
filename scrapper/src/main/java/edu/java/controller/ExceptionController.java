@@ -2,7 +2,6 @@ package edu.java.controller;
 
 import edu.java.exception.AlreadyExistsException;
 import edu.java.exception.NotExistException;
-import org.apache.kafka.common.errors.ResourceNotFoundException;
 import org.springdoc.api.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

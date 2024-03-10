@@ -25,7 +25,8 @@ public class LinksController {
     }
 
     @PostMapping
-    public ResponseEntity<LinkResponse> addLink(@RequestHeader Long tgChatId, @RequestBody AddLinkRequest addLinkRequest) {
+    public ResponseEntity<LinkResponse> addLink(@RequestHeader Long tgChatId,
+        @RequestBody AddLinkRequest addLinkRequest) {
         return linkService.addLink(tgChatId, addLinkRequest);
     }
 

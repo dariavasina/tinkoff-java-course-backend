@@ -10,18 +10,18 @@ import com.pengrad.telegrambot.request.SetMyCommands;
 import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.SendResponse;
 import edu.java.bot.commands.Command;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
-
 import edu.java.bot.processor.UserMessageProcessor;
 import edu.java.bot.respository.TrackedLinkRepository;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class LinkTrackerBot implements Bot {
-    private static final Logger LOGGER = Logger.getLogger(LinkTrackerBot.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(LinkTrackerBot.class);
 
     private final TelegramBot telegramBot;
     private List<Command> commands;
@@ -69,7 +69,7 @@ public class LinkTrackerBot implements Bot {
 
                 SendResponse sendResponse = telegramBot.execute(response);
                 if (!sendResponse.isOk()) {
-                    LOGGER.severe("Message failed to send. Error: " + sendResponse.errorCode());
+                    LOGGER.error("Message failed to send. Error: " + sendResponse.errorCode());
                 } else {
                     processedUpdates++;
                 }
